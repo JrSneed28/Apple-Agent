@@ -13,19 +13,6 @@ mkdir -p ~/.claude/skills/apple/
 cp apple-agent.py ~/.claude/skills/apple/
 cp SKILL.md ~/.claude/skills/apple/
 ```
-
-### One-liner (PowerShell)
-
-```powershell
-$d = "$env:USERPROFILE\.claude\skills\apple"; mkdir $d -Force; Invoke-WebRequest -Uri "https://github.com/<user>/apple-agent/releases/latest/download/apple-agent.py" -OutFile "$d\apple-agent.py"; Invoke-WebRequest -Uri "https://github.com/<user>/apple-agent/releases/latest/download/SKILL.md" -OutFile "$d\SKILL.md"
-```
-
-### One-liner (curl/bash)
-
-```bash
-mkdir -p ~/.claude/skills/apple/ && curl -L -o ~/.claude/skills/apple/apple-agent.py https://github.com/<user>/apple-agent/releases/latest/download/apple-agent.py && curl -L -o ~/.claude/skills/apple/SKILL.md https://github.com/<user>/apple-agent/releases/latest/download/SKILL.md
-```
-
 **Requirements:** Python 3.10+. No pip packages, no virtual environment, no Swift toolchain.
 
 ## Commands
