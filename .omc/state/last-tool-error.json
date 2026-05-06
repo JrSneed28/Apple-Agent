@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"git -C \\\"A:\\\\Skills\\\\Swiftagent\\\" status --short\",\"description\":\"Check git status for worktree compatibility\"}",
+  "error": "Exit code 128\nfatal: not a git repository (or any of the parent directories): .git",
+  "timestamp": "2026-05-06T05:44:19.334Z",
+  "retry_count": 1
+}

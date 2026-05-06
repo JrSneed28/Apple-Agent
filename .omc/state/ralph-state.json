@@ -1,0 +1,15 @@
+{
+  "active": true,
+  "iteration": 1,
+  "max_iterations": 10,
+  "current_phase": "execution",
+  "task_description": "Ralph persistence for apple-agent v1 team execution",
+  "linked_team": true,
+  "team_name": "apple-agent-v1-exec",
+  "_meta": {
+    "mode": "ralph",
+    "sessionId": null,
+    "updatedAt": "2026-05-06T05:43:06.886Z",
+    "updatedBy": "state_write_tool"
+  }
+}

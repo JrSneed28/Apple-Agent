@@ -1,0 +1,5 @@
+{"t":0,"agent":"system","event":"skill_activated","skill_name":"write-a-skill","skill_source":"user"}
+{"t":0,"agent":"system","event":"skill_activated","skill_name":"scaffold-exercises","skill_source":"user"}
+{"t":0,"agent":"system","event":"skill_activated","skill_name":"setup-matt-pocock-skills","skill_source":"user"}
+{"t":0,"agent":"system","event":"skill_activated","skill_name":"triage","skill_source":"user"}
+{"t":0,"agent":"system","event":"skill_activated","skill_name":"zoom-out","skill_source":"user"}
