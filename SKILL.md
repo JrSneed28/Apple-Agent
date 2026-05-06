@@ -64,6 +64,158 @@ Presents:
 - **StoreKit Risks** — missing restore purchases, unhandled transaction states
 - macOS-required checks that could not be performed
 
+## Edit Workflows
+
+Edit commands (`/apple fix`, `/apple polish`) follow a strict approval-gated pipeline. The CLI never modifies files; all edits flow through Claude Code's native `Edit` tool after explicit user approval.
+
+### Orchestration Pipeline (shared by all edit commands)
+
+```
+1. CLI audit  →  get suggested_actions
+2. Present edit plan  →  exact files, finding IDs, risk levels, behavior-preservation summaries
+3. User approval  →  required before ANY edit (even safe_to_autofix items)
+4. Edit only approved files  →  Claude Code native Edit tool
+5. CLI validate  →  re-scan changed files
+6. Final report  →  diff summary, validated checks, remaining risks
+```
+
+### `/apple fix [--target <path>]`
+
+Runs a scoped audit, proposes fixes for findings with `suggested_actions`, and applies only user-approved changes.
+
+```
+/apple fix
+/apple fix --target Sources/App/Profile
+```
+
+**Step 1 — Audit:** Calls `python apple-agent.py audit --root . [--target <path>] --json`. Extracts `suggested_actions` from the JSON response, filtering to non-protected files.
+
+**Step 2 — Edit Plan:** Presents a table of proposed edits:
+
+```
+## Edit Plan: /apple fix → Sources/App/Profile
+
+| # | File | Finding ID | Risk | What Changes | Preserves |
+|---|---|---|---|---|---|
+| 1 | ProfileView.swift:45 | force-try-001 | Low | Replace `try!` with `do/catch` | Identical decode behavior, adds error handling fallback |
+| 2 | ProfileView.swift:78 | hardcoded-color-003 | Low | Replace `Color.blue` with `Color("accent")` | Visual unchanged if asset exists, falls back to system blue |
+
+### ⛔ Protected Files (report-only, not in plan)
+- `Info.plist`: Missing NSCameraUsageDescription — requires separate approval
+- `App.entitlements`: aps-environment present — requires separate approval
+```
+
+Each proposed edit includes:
+- **Exact file and line** from the CLI finding.
+- **Finding ID** for traceability back to the audit.
+- **Risk level** from the CLI's severity classification.
+- **What changes** — a one-line description of the specific edit.
+- **Behavior-preservation summary** — how the change maintains existing behavior.
+
+Protected files in scope are listed but excluded from the edit plan. If the user wants to edit a protected file, they must initiate a separate explicit approval round (see Protected File Policy below).
+
+**Step 3 — User Approval:** The plan MUST be approved before any edits. The agent asks:
+
+> "Approve these edits? Reply with line numbers (e.g., `1,2`), `all`, or `none`. Protected files require a separate approval round."
+
+The agent does NOT auto-edit even when a finding has `safe_to_autofix` or other low-risk indicators. All edits are gated on explicit user approval.
+
+**Step 4 — Edit Only Approved Files:** Only files explicitly approved by the user are edited. The agent uses Claude Code's native `Edit` tool with exact `old_string` / `new_string` replacements.
+
+**Scope Creep Rejection:** If the user approved `ProfileView.swift`, the agent must NOT touch navigation files, plist files, or any other file not in the approved set — even if those files appear in the same finding group.
+
+**Step 5 — Validate:** After edits complete, run:
+
+```
+python apple-agent.py validate --root . --json
+```
+
+All changed files are re-scanned. The `validate` output confirms whether each fix resolved its finding.
+
+**Step 6 — Final Report:**
+
+```
+## Fix Complete: Profile
+
+### ✓ What Changed
+- `ProfileView.swift:45`: Replaced `try!` with `do/catch` (finding force-try-001)
+- `ProfileView.swift:78`: Replaced `Color.blue` with `Color("accent")` (finding hardcoded-color-003)
+
+### ✓ Validated (pass)
+- force-try-001: resolved ✓
+- hardcoded-color-003: resolved ✓
+
+### ⚡ Inferred (requires review)
+- heuristic findings may still be present; re-audit for full coverage
+
+### 🍎 Requires macOS/Xcode
+- Build verification with xcodebuild
+- SwiftUI preview validation
+
+### ⛔ Risky Areas Avoided
+- `Info.plist` (protected): NSCameraUsageDescription not added — needs separate approval
+- `App.entitlements` (protected): not modified
+- `NavigationStack` in `ContentView.swift`: not in scope, not touched
+
+### → Remaining
+1. **[high]** Add NSCameraUsageDescription to Info.plist — separate approval required
+2. **[medium]** Review heuristic findings with re-audit
+```
+
+### `/apple polish [--target <path>]`
+
+Focused on SwiftUI quality improvements: accessibility labels, semantic colors, Dynamic Type support, localization gaps, and view structure. Follows the same orchestration pipeline as `/apple fix`.
+
+```
+/apple polish
+/apple polish --target Sources/App/Profile
+```
+
+**Scope:** `/apple polish` filters `suggested_actions` to these categories:
+
+| Category | Examples |
+|---|---|
+| `accessibility` | Missing `.accessibilityLabel()` on icon-only buttons, missing `accessibilitySortPriority`, Dynamic Type clipping risks |
+| `semantic_colors` | Hardcoded `Color.white`/`.blue` instead of semantic asset catalog colors |
+| `dynamic_type` | Fixed `.frame()` sizes that clip large type, non-scaling fonts |
+| `localization` | Hardcoded user-facing strings (should be `NSLocalizedString` or `String(localized:)`) |
+| `view_structure` | Large view bodies (suggest extraction), deeply nested stacks |
+
+The edit plan follows the same format as `/apple fix` — exact files, finding IDs, risk levels, and behavior-preservation summaries. Approval, editing, validation, and reporting are identical.
+
+### Edit-Command Protected File Policy
+
+The skill enforces a stricter variant of the Protected File Policy for edit commands:
+
+**Report-only (never in edit plan):**
+- `Info.plist`, `*.entitlements` — signing/privacy breakage risk
+- `project.pbxproj` — can break the Xcode project
+- `Package.swift` — can break SPM resolution
+- `*.xcconfig` — build configuration
+- Signing configurations (`*.provisionprofile`, `*.p12`, certificate references)
+- StoreKit configuration files (`*.storekit`)
+- Auth/payment/security files (`*Auth*`, `*Payment*`, `*Keychain*`, `*Credentials*`)
+- Generated files (`*.generated.swift`, `*.gen.swift`, SPM-generated sources)
+- Any file not returned by the CLI in the resolved scope
+
+These files are listed in the edit plan under "⛔ Protected Files (report-only)" but never included as actionable edits. The user must initiate a **separate, explicit approval round** to edit any protected file — e.g., by opening a new message thread or explicitly typing an approval statement for that specific file.
+
+The agent must not interpret a general "approve all" or "looks good" as permission to touch protected files.
+
+### Edit Plan Approval Format
+
+The user approves specific edits by referencing line numbers from the plan table:
+
+| User says | Agent interprets |
+|---|---|
+| `1,2,5` | Edit rows 1, 2, and 5 only |
+| `all` | Edit all non-protected rows |
+| `all except 3` | Edit all non-protected rows except row 3 |
+| `none` / `no` / `cancel` | No edits, exit edit workflow |
+| Anything ambiguous | Re-prompt with row numbers explicitly |
+
+For ambiguous input (e.g., "fix the force unwrap stuff"), the agent maps back to finding IDs in the plan and confirms: "Apply rows 1 and 3 (force-try-001, force-try-002)?"
+
 ## Plain-English Modifier Parsing
 
 The skill interprets user intent from natural language and maps it to structured parameters.
