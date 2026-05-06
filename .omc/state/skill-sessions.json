@@ -1,45 +1,11 @@
 {
   "sessions": {
-    "5d890533-d2bf-4fd6-abc9-0f1d707edcc8": {
+    "65785fd1-cbb7-4b6a-a0e3-76a3b125b8e2": {
       "injectedPaths": [
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\setup-matt-pocock-skills\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\write-a-skill\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\to-prd\\SKILL.md"
-      ],
-      "timestamp": 1778043189513
-    },
-    "93647c7d-ce9e-4665-a30c-111aea7c66c4": {
-      "injectedPaths": [
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\git-guardrails-claude-code\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\grill-me\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\setup-matt-pocock-skills\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\to-issues\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\write-a-skill\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\to-prd\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\edit-article\\SKILL.md",
         "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\setup-pre-commit\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\swift-engineering\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\zoom-out\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\migrate-to-shoehorn\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\tdd\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\improve-codebase-architecture\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\diagnose\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\triage\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\scaffold-exercises\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\obsidian-vault\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\grill-with-docs\\SKILL.md"
+        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\triage\\SKILL.md"
       ],
-      "timestamp": 1778045787985
-    },
-    "005cc13e-a5c2-47ea-937b-a5d5abc654ec": {
-      "injectedPaths": [
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\write-a-skill\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\scaffold-exercises\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\setup-matt-pocock-skills\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\triage\\SKILL.md",
-        "C:\\Users\\bayba\\.claude\\skills\\omc-learned\\zoom-out\\SKILL.md"
-      ],
-      "timestamp": 1778046107918
+      "timestamp": 1778050844756
     }
   }
 }

@@ -105,6 +105,48 @@
       "accessCount": 1,
       "lastAccessed": 1778048226229,
       "type": "file"
+    },
+    {
+      "path": ".scratch\\issues\\07-integration-regression-tests.md",
+      "accessCount": 1,
+      "lastAccessed": 1778050872231,
+      "type": "file"
+    },
+    {
+      "path": ".scratch\\issues\\06-skill-edit-workflows.md",
+      "accessCount": 1,
+      "lastAccessed": 1778050872375,
+      "type": "file"
+    },
+    {
+      "path": ".scratch\\issues\\08-documentation.md",
+      "accessCount": 1,
+      "lastAccessed": 1778050872406,
+      "type": "file"
+    },
+    {
+      "path": "apple-agent.py",
+      "accessCount": 1,
+      "lastAccessed": 1778050941385,
+      "type": "file"
+    },
+    {
+      "path": "PRD.md",
+      "accessCount": 1,
+      "lastAccessed": 1778050941558,
+      "type": "file"
+    },
+    {
+      "path": "SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1778050941698,
+      "type": "file"
+    },
+    {
+      "path": "test_apple_agent.py",
+      "accessCount": 1,
+      "lastAccessed": 1778050941746,
+      "type": "file"
     }
   ],
   "userDirectives": []
