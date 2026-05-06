@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"ls \\\"A:\\\\Skills\\\\apple-agent\\\\.scratch\\\\apple-agent-v1\\\"\",\"description\":\"List project files\"}",
-  "error": "Exit code 2\nls: cannot access 'A:\\Skills\\apple-agent\\.scratch\\apple-agent-v1': No such file or directory",
-  "timestamp": "2026-05-06T07:01:32.501Z",
-  "retry_count": 1
-}
