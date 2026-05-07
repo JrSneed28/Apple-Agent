@@ -207,7 +207,6 @@ apple-agent/
   test_integration.py  # Integration tests (23 tests)
   SKILL.md             # Claude Code skill definition
   README.md            # This file
-  PRD.md               # v1 Product Requirements Document
   docs/agents/         # Agent workflow documentation
   .scratch/issues/     # Issue tracker
 ```
